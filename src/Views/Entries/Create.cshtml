@@ -1,0 +1,63 @@
+﻿@model FileSharing.Models.EntryViewModel
+
+@{
+    ViewData["Title"] = "New";
+}
+
+<h1 class="title">New</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group text-danger">
+                @Html.DisplayFor(model => model.validationError)
+            </div>
+            <div class="form-group pb-2">
+                <label asp-for="customId" class="control-label"></label>
+                <input asp-for="customId" class="form-control custom-input" maxlength="16" />
+            </div>
+            <div class="form-group pb-2">
+                <label asp-for="broToken" class="control-label"></label>
+                <input asp-for="broToken" class="form-control custom-input" type="password" />
+            </div>
+            <div class="form-group pb-2">
+                <label asp-for="expiresIn" class="control-label"></label>
+                <select asp-for="expiresIn" class="form-control form-select custom-input">
+                    <option value="0.5">30 minutes</option>
+                    <option value="1">1 hour</option>
+                    <option value="12">12 hours</option>
+                    <option selected value="24">1 day</option>
+                    <option value="168">1 week</option>
+                    <option value="720">30 days</option>
+                </select>
+            </div>
+            <div class="form-group pb-4">
+                <label asp-for="maxNumOfDownloads" class="control-label"></label>
+                <select asp-for="maxNumOfDownloads" class="form-control form-select custom-input">
+                    <option value="1">1 Download</option>
+                    <option value="5">5 Downloads</option>
+                    <option value="10">10 Downloads</option>
+                    <option selected value="69">69 Downloads</option>
+                    <option value="100">💯 Downloads</option>
+                </select>
+            </div>
+            <div class="form-group pb-2">
+                <input type="file" id="uploadedFile" name="uploadedFile" class="form-control">
+            </div>
+            <div class="form-group text-danger">
+                @Html.DisplayFor(model => model.validationError)
+            </div>
+            <div class="form-group pt-2">
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-file-arrow-up"></i></button><span>@ViewBag.Message</span>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/create.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/create.min.js"></script>
+    </environment>
+}

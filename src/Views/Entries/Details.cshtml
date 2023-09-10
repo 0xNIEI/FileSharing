@@ -1,0 +1,30 @@
+﻿@model FileSharing.Models.EntryViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1 class="title">@Html.DisplayFor(model => model.guid)@(Model.customId != null ? " (" + Model.customId + ")" : "")</h1>
+
+<div>
+<div class="pb-2 pt-2 border-secondary border-2">
+    <pre id="content-block">@Html.DisplayFor(model => model.originalFileName)</pre>
+</div>
+    
+</div>
+<div>
+    <form asp-action="Delete" asp-route-id="@Model.guid">
+        <button type="submit" class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+        <a asp-action="Create" class="btn btn-outline-primary"><i class="fa-solid fa-plus"></i></a>
+        <button class="btn btn-outline-primary" id="download-button" type="button"><i class="fa-solid fa-file-arrow-down"></i></button>
+    </form>
+    <span hidden id="guid">@Html.DisplayFor(model => model.guid)</span>
+</div>
+@section Scripts{
+    <environment include="Development">
+        <script src="~/js/details.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/details.min.js"></script>
+    </environment>
+}
