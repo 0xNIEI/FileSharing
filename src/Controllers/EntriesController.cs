@@ -125,6 +125,14 @@ namespace FileSharing.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            if (entryDbModel.maxNumOfDownloads == 0)
+            {
+                System.IO.File.Delete("uploads/" + entryDbModel.guid + ".niei");
+                _context.Remove(entryDbModel);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
             if (entryDbModel.expiresAt < DateTime.UtcNow)
             {
                 System.IO.File.Delete("uploads/" + entryDbModel.guid + ".niei");
@@ -146,6 +154,7 @@ namespace FileSharing.Controllers
         }
 
         [HttpPost]
+        [RequestSizeLimit(1024*1024*1024)]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(EntryViewModel entryViewModel, IFormFile uploadedFile)
         {
